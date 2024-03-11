@@ -1,4 +1,4 @@
-#include "healthpoints.h"
+#include "Healthpoints.h"
 
 //implemntaion of constructor
 HealthPoints::HealthPoints(int max) : max_points(max), current_points(max)

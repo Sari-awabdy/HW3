@@ -13,6 +13,7 @@ private:
     class Node;
     Node* front;
     Node* rear;
+    int size;
 
 public:
     //constructors
@@ -69,10 +70,8 @@ public:
     int size();
 }
 //exceptions
-class EmptyQueue(){
-}
-class InvalidOperation(){
-}
+class EmptyQueue(){}
+class InvalidOperation(){}
 
 /**
  * filter: creates a new queue in which the elements are those element from queue who work on a condition 
@@ -157,20 +156,14 @@ public:
 }
 
 //constructors
-Queue :: Queue(){
+Queue :: Queue() : size(0){
     this.front = nullptr;
     this.rear = front;
 }
 
-Queue :: Queue(const Queue queue){
-    this.front = new Node(queue.getFront.getData());
+Queue :: Queue(const Queue queue) : front(nullptr), rear(nullptr), size(0){
     for(const Iterator it = (queue.begin()++); it != queue.end(); it++){
-        if(this.rear == nullptr){
-            this.setRear(new Node(it.node.getData()));
-        }else{
-            this.rear.setNext(new Node(it.node.getData()));
-            this.rear = rear.getNext();
-        }
+        this.pushBack(it.node.getData());
     }
 }
 //deconstructor
@@ -235,14 +228,13 @@ Queue& Queue :: pushBack(const T& element){
             this.front = addedElement;
             this.rear = this.front;
         }else{
-            addedElement.setPrevious(this.rear);
             this.rear.setNext(addedElement);
             this.rear = rear.getNext();
         }
     } catch (const std :: bad_alloc& e){
         throw;
     }
-
+    this.size++;
     return this;
 }
 
@@ -258,11 +250,10 @@ const T& Queue :: front(){
 //popFront
 void Queue :: popFront(){
     //if queue is empty throw exeption
-    if(this.front == nullptr){
+    if(this.size == 0){
         throw EmptyQueue();
     }
     Node* tmpNewFront = this.front.getNext();
-    tmpNewFront.setPrevious(nullptr);
     delete front;
     this.front = tmpNewFront;
     if (tmpNewFront == nullptr)
@@ -273,13 +264,6 @@ void Queue :: popFront(){
 
 //size
 int Queue :: size(){
-    if(front == nullptr){
-        return 0;
-    }
-    int counter = 0;
-    for(const Iterator it = this.begin(); it != this.end(); it++){
-        counter++;
-    }
-    return counter;
+    return size;
 }
 #endif /* Queue_h */
